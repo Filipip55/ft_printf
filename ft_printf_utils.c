@@ -6,30 +6,56 @@
 /*   By: icoman <icoman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 16:51:01 by icoman            #+#    #+#             */
-/*   Updated: 2026/01/12 17:30:35 by icoman           ###   ########.fr       */
+/*   Updated: 2026/01/14 16:11:16 by icoman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_hex_content(unsigned char *p)
+int	putstr(char *s)
 {
-	const char		*cifrario_hex;
-	unsigned int	i;
+	int	i;
 
-	cifrario_hex = "0123456789abcdef";
 	i = 0;
-	while (i < 16)
+	while (s[i])
 	{
-		ft_putchar(cifrario_hex[p[i] / 16]);
-		ft_putchar(cifrario_hex[p[i] % 16]);
+		write(1, &s[i], 1);
 		i++;
 	}
+	return (i);
 }
 
-char    *convert_hex(int nbr)
+int puthex(unsigned int n, char format)
 {
-	char *codex;
+	int		count;
+	char	*base;
 
-	codex = "0123456789abcdef";
+	count = 0;
+	if (format == 'x')
+		base = "0123456789abcdef";
+	else
+		base = "0123456789ABCDEF";
+	if (n >= 16)
+		count += puthex(n / 16, format);
+	write(1, &base[n % 16], 1);
+	return (count + 1);
+}
+
+int	putnbr(long n)
+{
+	int	char_count;
+	char	c;
+
+	char_count = 0;
+	if (n < 0)
+	{
+		write(1, "-", 1);
+		n = -n;
+		char_count++;
+	}
+	if (n >= 10)
+		char_count += putnbr(n / 10);
+	c = (n % 10) + '0';
+	write(1, &c, 1);
+	return (char_count + 1);
 }
