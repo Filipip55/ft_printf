@@ -1,7 +1,11 @@
-#include <stdio.h>
+#include "ft_printf.h"
 
 int main()
 {
-    printf("ho stampato %d caratteri", printf("%s1234567", "abc"));
+    int a, b;
+    a = printf("ho stampato %d caratteri\n", 9);
+    b = ft_printf("ho stampato %d caratteri\n", 9);
+    printf("ft: %d libc: %d", a, b);
+
     return 0;
 }
